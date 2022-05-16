@@ -22,6 +22,17 @@ const show = () => {
       });
     });
   };
+  const update = ({name, total_order }) =>{
+  return new Promise((resolve, reject)=>{
+    pool.query("UPDATE transactions SET name = $2, total_order = $3 WHERE id = $1", [name, total_order], (err, result) => {   
+      if (!err) {
+        resolve(result);
+      } else {
+        reject(new Error(err));
+      }
+    })
+  })
+};
 
   const countData = () => {
     return pool.query("SELECT COUNT(*) AS total FROM transactions");
@@ -30,5 +41,6 @@ const show = () => {
   module.exports = {
       show,
       insert,
+      update,
       countData
   };

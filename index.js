@@ -1,14 +1,14 @@
 require("dotenv").config();
 
 const express = require("express");
-const productRouter = require("./src/routes/products");
-const categoryRouter = require("./src/routes/category");
-const transactionsRouter = require("./src/routes/transactions");
+const mainRouter = require('./src/routes/index')
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const helmet = require("helmet");
 const xss = require('xss-clean')
+
+
 
 // middlewares
 app.use(express.json());
@@ -17,15 +17,7 @@ app.use(helmet());
 app.use(xss())
 
 // Router
-app.use("/products", productRouter);
-app.use("/category", categoryRouter);
-app.use("/transactions", transactionsRouter);
-
-// transactions
-// app.get("/transactions", transactionsController.getTransactions);
-// app.post("/transactions", transactionsController.insertTransactions);
-// app.put("/transactions/:id", transactionsController.updateTransactions);
-// app.delete("/transactions/:id", transactionsController.deleteTransactions);
+app.use('/v1', mainRouter)
 
 // Error Handling
 app.use((err, req, res, next) => {

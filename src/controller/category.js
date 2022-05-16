@@ -53,20 +53,23 @@ exports.insertCategory = (req, res, next) => {
 
 exports.updateCategory = (req, res) => {
   const id = req.params.id;
-  const name = req.body.name;
-
-  pool.query("UPDATE category SET name = $1 WHERE id = $2", [name, id], (err, result) => {
-    if (!err) {
-      res.json({
-        message: result
+  const data = {
+    id,
+    name
+  };
+  categoryModel.update(data)
+    .then(() => {
+      res.status(201).json({
+        data
       });
-    } else {
+    })
+    .catch(() => {
       next(createError(500, 'ada error di input anda'))
       // res.status(500).json({
       //   message: "internal server error"
       // });
-    }
-  });
+      
+    });
 };
 
 exports.deleteCategory = (req, res, next) => {

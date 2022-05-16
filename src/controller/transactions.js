@@ -41,7 +41,28 @@ exports.insertTransactions = (req, res, next) => {
       error.status = 500;
       next(error);
     });
-}
+},
+exports.updateTransactions = (req, res) => {
+  const id = req.params.id;
+  const data = {
+    id,
+    name,
+    total_order
+  };
+  transactionsModel.update(data)
+    .then(() => {
+      res.status(202).json({
+        data
+      });
+    })
+    .catch(() => {
+      next(createError(500, 'ada error di input anda'))
+      // res.status(500).json({
+      //   message: "internal server error"
+      // });
+      
+    });
+};
   // insertTransactions: (req, res, next) => {
   //   const { name, total_order } = req.body;
   //   pool.query("INSERT INTO transactions(name, total_order)VALUES($1, $2)", [name, total_order], (err, result) => {
